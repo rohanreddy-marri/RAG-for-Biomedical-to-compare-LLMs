@@ -1,0 +1,74 @@
+data_list = []
+
+# Safely iterate through dataset
+for item in dataset["train"]:
+    try:
+        q = item.get("question", "")
+        ctx = item.get("context", "")
+        ans = item.get("final_decision", "")
+
+        data_list.append({
+            "question": q,
+            "context": ctx,
+            "answer": ans
+        })
+    except Exception as e:
+        print("Skipping item due to error:", e)
+
+import pandas as pd
+df = pd.DataFrame(data_list)
+df.head()
+# Normalizing Text
+def extract_context_text(context_entry):
+    """
+    Works for entries like:
+    {'contexts': ['text1', 'text2', ...]}
+    """
+    if isinstance(context_entry, dict) and "contexts" in context_entry:
+        ctx = context_entry["contexts"]
+        if isinstance(ctx, list):
+            return " ".join(ctx)
+        return str(ctx)
+
+    elif isinstance(context_entry, list):
+        return " ".join(context_entry)
+
+    return str(context_entry)
+import pandas as pd
+
+# example: df.head() looked like the snippet you pasted; identify columns
+print(df.columns)
+# try to standardize:
+if 'answer_label' in df.columns:
+    df = df.rename(columns={'answer_label':'label'})
+
+# choose text column adapt names as necessary
+if 'question' not in df.columns:
+    # maybe there is a 'text' or 'title' + 'abstract' etc.
+    if 'text' in df.columns:
+        df['context'] = df['text']
+    elif 'title' in df.columns and 'abstract' in df.columns:
+        df['context'] = (df['title'].fillna('') + ' ' + df['abstract'].fillna('')).str.strip()
+    else:
+        raise ValueError("Please set or rename your text column to 'context' or 'question'")
+
+# unify labels
+df['label'] = df['label'].astype(str).str.strip().str.lower().map(lambda x: 'yes' if x.startswith('y') else ('no' if x.startswith('n') else x))
+print(df['label'].value_counts())
+
+# check columns
+print(df.columns)
+
+# rename columns if needed
+# assuming the second column is the label
+if 'answer_label' not in df.columns:
+    if 'answer' in df.columns:
+        df['answer_label'] = df['answer'].astype(str).str.strip().str.lower().map(lambda x: 'yes' if x.startswith('y') else 'no')
+    else:
+        # fallback: second column
+        label_col = df.columns[1]
+        df['answer_label'] = df[label_col].astype(str).str.strip().str.lower().map(lambda x: 'yes' if x.startswith('y') else 'no')
+
+# ensure question column exists
+if 'question' not in df.columns:
+    df['question'] = df[df.columns[0]].astype(str)
