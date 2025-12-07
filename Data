@@ -1,0 +1,8 @@
+from datasets import load_dataset
+
+try:
+    # Load the PubMedQA dataset
+    dataset = load_dataset("pubmed_qa", "pqa_labeled")
+    print("Dataset loaded successfully!")
+except Exception as e:
+    print("Error loading dataset:", e)
