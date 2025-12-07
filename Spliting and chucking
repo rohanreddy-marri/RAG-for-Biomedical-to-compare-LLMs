@@ -1,0 +1,41 @@
+#Testing and Training Split
+from sklearn.model_selection import train_test_split
+
+train_df, test_df = train_test_split(df, test_size=0.2, random_state=42, stratify=df['answer_label'])
+
+# Convert to list of dicts for easier looping
+train_examples = [{"question": q, "answer": a} for q, a in zip(train_df['question'], train_df['answer_label'])]
+test_examples = [{"question": q, "answer": a} for q, a in zip(test_df['question'], test_df['answer_label'])]
+
+print("Train examples:", len(train_examples))
+print("Test examples:", len(test_examples))
+
+
+#Chucking into passages
+import re
+
+def clean_text(s):
+    return re.sub(r'\s+', ' ', str(s)).strip()
+
+def chunk_text(text, size=400, stride=150):
+    t = clean_text(text)
+    if len(t) <= size:
+        return [t]
+    chunks=[]
+    i=0
+    while i < len(t):
+        chunks.append(t[i:i+size])
+        if i+size >= len(t): break
+        i += size - stride
+    return chunks
+
+# Build passages for all train examples
+passages=[]
+meta=[]
+for idx, row in train_df.reset_index().iterrows():
+    cs = chunk_text(row['question'], size=400, stride=150)
+    for c in cs:
+        passages.append(c)
+        meta.append({'source_idx': idx, 'label': row['answer_label']})
+
+print("Total passages:", len(passages))
