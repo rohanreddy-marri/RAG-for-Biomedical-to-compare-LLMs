@@ -1,0 +1,23 @@
+  #Evaluate all 3 public small models
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support
+import json
+
+def evaluate_models(model_keys, examples, k=5, max_new_tokens=64):
+    summary = {}
+    for mk in model_keys:
+        print("\nEvaluating:", mk)
+        preds, truths = [], []
+        for ex in examples:
+            pred,_ = rag_predict(ex["question"], mk, k, max_new_tokens)
+            preds.append(pred)
+            truths.append(ex["answer"])
+        acc = accuracy_score(truths, preds)
+        p,r,f1,_ = precision_recall_fscore_support(truths, preds, average='binary', pos_label='yes', zero_division=0)
+        summary[mk] = {"accuracy":acc, "precision":p, "recall":r, "f1":f1}
+        print(mk, summary[mk])
+    with open("rag_model_comparison_results.json","w") as f:
+        json.dump(summary,f,indent=2)
+    return summary
+
+results = evaluate_models(["flan","bloomz","t5"], test_examples, k=5, max_new_tokens=64)
+print("\nFinal comparison:\n", json.dumps(results, indent=2))
