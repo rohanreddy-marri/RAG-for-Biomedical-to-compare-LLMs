@@ -23,25 +23,7 @@ This implementation is suitable for tasks such as:
 
 ---
 
-## Repository Structure
 
-```
-RAG-Model/
-│
-├── data/                  # Raw and processed datasets
-├── embeddings/            # Saved embeddings and vector stores
-├── notebooks/             # Example notebooks for running experiments
-├── src/                   # Source code for RAG pipeline
-│   ├── build_vectorstore.py
-│   ├── retrieval.py
-│   ├── rag_inference.py
-│   └── utils.py
-├── requirements.txt       # Required Python packages
-├── README.md              # This file
-└── example_usage.ipynb    # Sample code to run the RAG model
-```
-
----
 
 ## Installation
 
