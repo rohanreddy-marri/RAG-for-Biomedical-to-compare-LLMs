@@ -136,5 +136,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 
-Created by **Rohan Reddy Marri & Devakinandan pentyala** – [your.email@example.com](mailto:your.email@example.com)
-GitHub: [https://github.com/yourusername](https://github.com/yourusername)
+Created by **Rohan Reddy Marri & Devakinandan pentyala** – [rohanreddy1408@gmail.com](mailto:your.email@example.com)
+GitHub: [https://github.com/rohanreddy-marri](https://github.com/yourusername)
