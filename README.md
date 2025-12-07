@@ -76,11 +76,8 @@ print(answer)
 
 ### 4. Evaluate model
 
-* Evaluation scripts are provided in `src/utils.py` to compute metrics like Accuracy, Precision, Recall, and F1-score.
+* Evaluation scripts are provided in `evaluation` to compute metrics like Accuracy, Precision, Recall, and F1-score.
 
-```bash
-python src/utils.py --eval_data data/test.csv
-```
 
 ---
 
@@ -119,4 +116,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Contact
 
 Created by **Rohan Reddy Marri & Devakinandan pentyala** – [rohanreddy1408@gmail.com](mailto:your.email@example.com)
+
 GitHub: [https://github.com/rohanreddy-marri](https://github.com/yourusername)
