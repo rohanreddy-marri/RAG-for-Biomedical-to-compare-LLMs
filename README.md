@@ -48,7 +48,7 @@ RAG-Model/
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/RAG-Model.git
+git clone https://github.com/rohanreddy-marri/RAG-Model.git
 cd RAG-Model
 ```
 
@@ -136,5 +136,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 
-Created by **Your Name** – [your.email@example.com](mailto:your.email@example.com)
+Created by **Rohan Reddy Marri & Devakinandan pentyala** – [your.email@example.com](mailto:your.email@example.com)
 GitHub: [https://github.com/yourusername](https://github.com/yourusername)
