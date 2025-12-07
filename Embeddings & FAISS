@@ -1,0 +1,24 @@
+#Embeddings + FAISS
+from sentence_transformers import SentenceTransformer
+import numpy as np
+import faiss
+
+embed_model = "all-MiniLM-L6-v2"  # or Bio/clinical embedding
+embedder = SentenceTransformer(embed_model)
+
+# Embed passages
+batch_size = 64
+embs = []
+for i in range(0, len(passages), batch_size):
+    batch = passages[i:i+batch_size]
+    emb = embedder.encode(batch, convert_to_numpy=True, show_progress_bar=False)
+    embs.append(emb)
+passage_emb = np.vstack(embs).astype('float32')
+
+# FAISS index
+faiss.normalize_L2(passage_emb)
+d = passage_emb.shape[1]
+index = faiss.IndexFlatIP(d)
+index.add(passage_emb)
+print("Index size:", index.ntotal)
+
