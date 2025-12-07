@@ -1,0 +1,17 @@
+#RAG inference
+def to_yesno(text):
+    t = str(text).strip().lower()
+    if t.startswith("yes"): return "yes"
+    if t.startswith("no"): return "no"
+    for token in t.replace("."," ").replace(","," ").split():
+        if token in ("yes","no"): return token
+    return "yes"
+
+def rag_predict(question, model_key, k=5, max_new_tokens=64):
+    passage_ids = retrieve_topk(question, k)
+    prompt = make_prompt(question, passage_ids)
+    pipeline_obj = load_pipeline(model_key)
+    out = pipeline_obj(prompt, max_new_tokens=max_new_tokens)
+    raw = out[0].get("generated_text", out[0].get("text","")) if isinstance(out,list) else str(out)
+    pred = to_yesno(raw)
+    return pred, raw
