@@ -1,0 +1,24 @@
+#Plotting Performance of 3 LLMs
+import matplotlib.pyplot as plt
+
+metrics = ["accuracy", "precision", "recall", "f1"]
+models = list(results.keys())
+
+# Prepare data for plotting
+data = {metric: [results[m][metric] for m in models] for metric in metrics}
+
+# Plot grouped bar chart
+x = range(len(models))
+width = 0.2
+
+plt.figure(figsize=(10,6))
+
+for i, metric in enumerate(metrics):
+    plt.bar([p + i*width for p in x], data[metric], width=width, label=metric)
+
+plt.xticks([p + 1.0*width for p in x], models)
+plt.ylim(0,1)
+plt.ylabel("Score")
+plt.title("RAG Model Performance Comparison")
+plt.legend()
+plt.show()
