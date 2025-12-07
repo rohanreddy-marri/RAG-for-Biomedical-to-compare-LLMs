@@ -1,0 +1,45 @@
+# Ask your question here
+your_question = "Do mitochondria play a role in remodeling lacrimal glands?"
+
+# Number of top passages to retrieve
+TOP_K = 5
+MAX_NEW_TOKENS = 64
+
+for model_key in ["flan", "bloomz", "t5"]:
+    pred, raw_output = rag_predict(your_question, model_key, k=TOP_K, max_new_tokens=MAX_NEW_TOKENS)
+    print(f"Model: {model_key}")
+    print(f"Predicted answer: {pred}")
+    print(f"Raw output: {raw_output}")
+    print("-"*50)
+
+
+
+# Ask your question here
+your_question = "Can early physical therapy prevent joint stiffness after knee replacement surgery?"
+
+# Number of top passages to retrieve
+TOP_K = 5
+MAX_NEW_TOKENS = 64
+
+for model_key in ["flan", "bloomz", "t5"]:
+    pred, raw_output = rag_predict(your_question, model_key, k=TOP_K, max_new_tokens=MAX_NEW_TOKENS)
+    print(f"Model: {model_key}")
+    print(f"Predicted answer: {pred}")
+    print(f"Raw output: {raw_output}")
+    print("-"*50)
+
+
+# Ask your question here
+your_question = "Does the use of statins reduce mortality in patients with sepsis?"
+
+# Number of top passages to retrieve
+TOP_K = 5
+MAX_NEW_TOKENS = 64
+
+for model_key in ["flan", "bloomz", "t5"]:
+    pred, raw_output = rag_predict(your_question, model_key, k=TOP_K, max_new_tokens=MAX_NEW_TOKENS)
+    print(f"Model: {model_key}")
+    print(f"Predicted answer: {pred}")
+    print(f"Raw output: {raw_output}")
+    print("-"*50)
+
