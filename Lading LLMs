@@ -1,0 +1,29 @@
+#Load multiple small public LLMs
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, AutoModelForCausalLM, pipeline
+
+# Define your models
+MODEL_IDS = {
+    "flan": "google/flan-t5-small",       # seq2seq
+    "bloomz": "bigscience/bloomz-560m",   # causal LM
+    "t5": "t5-small"                       # seq2seq
+}
+
+SEQ2SEQ_MODELS = ["flan", "t5"]  # seq2seq
+LOCAL_PIPELINES = {}
+
+def load_pipeline(model_key):
+    if model_key in LOCAL_PIPELINES:
+        return LOCAL_PIPELINES[model_key]
+
+    model_id = MODEL_IDS[model_key]
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
+
+    if model_key in SEQ2SEQ_MODELS:
+        model = AutoModelForSeq2SeqLM.from_pretrained(model_id)
+        pipe = pipeline("text2text-generation", model=model, tokenizer=tokenizer)
+    else:
+        model = AutoModelForCausalLM.from_pretrained(model_id)
+        pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
+
+    LOCAL_PIPELINES[model_key] = pipe
+    return pipe
