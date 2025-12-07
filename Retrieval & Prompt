@@ -1,0 +1,21 @@
+#Retrieval + Prompt
+def retrieve_topk(question, k=5):
+    q_emb = embedder.encode([question], convert_to_numpy=True).astype('float32')
+    faiss.normalize_L2(q_emb)
+    D, I = index.search(q_emb, k)
+    ids = [int(i) for i in I[0]]  # flat list of integers
+    return ids
+
+PROMPT = """You are given a question and supporting context. Answer with ONLY one word: "yes" or "no".
+
+Question:
+{q}
+
+Context:
+{ctx}
+
+Answer (only 'yes' or 'no'):"""
+
+def make_prompt(question, passage_ids):
+    ctx = "\n\n".join([passages[i] for i in passage_ids])
+    return PROMPT.format(q=question, ctx=ctx)
